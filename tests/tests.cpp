@@ -369,10 +369,10 @@ TEST_CASE("data") {
         name = dat.get("name");
         age = dat.get("age");
         is_human = dat.get("is_human");
-        CHECK(name != (const data*)0);
-        CHECK(age != (const data*)0);
-        CHECK(is_human != (const data*)0);
-        CHECK(dat.get("miss") == (const data*)0);
+        CHECK(name != nullptr);
+        CHECK(age != nullptr);
+        CHECK(is_human != nullptr);
+        CHECK(dat.get("miss") == nullptr);
         REQUIRE(name->is_string());
         CHECK(name->string_value() == "Steve");
         REQUIRE(age->is_string());
