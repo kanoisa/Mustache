@@ -1061,7 +1061,7 @@ private:
     };
 
     bool render_lambda(const render_handler& handler, const basic_data<string_type>* var, context_internal<string_type>& ctx, render_lambda_escape escape, const string_type& text, bool parse_with_same_context) {
-        const typename basic_renderer<string_type>::type2 render2 = [this, &ctx, parse_with_same_context, escape](const string_type& text, bool escaped) {
+        const typename basic_renderer<string_type>::type2 render2 = [this, &ctx, parse_with_same_context, escape](const string_type& input_text, bool escaped) {
             const auto process_template = [this, &ctx, escape, escaped](basic_mustache& tmpl) -> string_type {
                 if (!tmpl.is_valid()) {
                     error_message_ = tmpl.error_message();
@@ -1088,16 +1088,16 @@ private:
                 return do_escape ? escape_(str) : str;
             };
             if (parse_with_same_context) {
-                basic_mustache tmpl{text, ctx};
+                basic_mustache tmpl{input_text, ctx};
                 tmpl.set_custom_escape(escape_);
                 return process_template(tmpl);
             }
-            basic_mustache tmpl{text};
+            basic_mustache tmpl{input_text};
             tmpl.set_custom_escape(escape_);
             return process_template(tmpl);
         };
-        const typename basic_renderer<string_type>::type1 render = [&render2](const string_type& text) {
-            return render2(text, false);
+        const typename basic_renderer<string_type>::type1 render = [&render2](const string_type& input_text) {
+            return render2(input_text, false);
         };
         if (var->is_lambda2()) {
             const basic_renderer<string_type> renderer{render, render2};
